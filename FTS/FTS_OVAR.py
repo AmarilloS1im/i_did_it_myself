@@ -26,7 +26,6 @@ def main():
     sendMesageToMail()
 
 def getInfoFromSF():
-
     rub_eur = float(input('Введите курс RUB к ЕВРО '))
     rub_usd = float(input('Введите курс RUB к USD '))
     lable = str(input('Введите бренд/торговую марку товара, например: Denso '))
@@ -60,14 +59,9 @@ def getInfoFromSF():
         temp_data_list = []
         row.row +=1
     data_list = data_list[3:]
+    for x in range(len(data_list)):
+        data_list[x][1] = str(data_list[x][1])
     book.close()
-    weight_book = openpyxl.open('Weight.xlsx', read_only=True, data_only=True)
-    sheet_weight = weight_book.active
-    weight_list = []
-
-    for x in range(16, (sheet_weight.max_row) - 10):
-        weight_list.append(sheet_weight[x][14].value)
-    weight_book.close()
     shutil.copy('Stat_form.xlsx', 'Final_stat_form.xlsx')
     work_book = openpyxl.open('Final_stat_form.xlsx', read_only=False, data_only=True)
     work_book_sheet = work_book.active
@@ -75,7 +69,7 @@ def getInfoFromSF():
 
     for x in range(19,(sheet.max_row)-10):
         for column in range(1,23):
-            work_book_sheet[row.row + 2][1].value = data_list[row.row][0] + " " + data_list[row.row][1]
+            work_book_sheet[row.row + 2][1].value = data_list[row.row][0] + " " + str(data_list[row.row][1])
             work_book_sheet[row.row + 2][0].value = tnvd_dict[data_list[row.row][1]].tnvd_code
             work_book_sheet[row.row + 2][10].value = data_list[row.row][15]
             work_book_sheet[row.row + 2][12].value = country_dict[data_list[row.row][16]].short_name
