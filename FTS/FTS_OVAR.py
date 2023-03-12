@@ -102,15 +102,15 @@ def sendMesageToMail():
     msg = MIMEMultipart()
     msg['From'] = sender
     msg['To'] = send_to
-    msg['Subject'] = 'Файл для загрузки на ФТС'
+    msg['Subject'] = f'Файл для загрузки на ФТС {sf_number}'
     msg.attach(MIMEText(message))
     try:
-        file = open('Final_stat_form.xlsx', 'rb')
-        part = MIMEBase('application', 'Final_stat_form.xlsx')
+        file = open(f'Final_stat_form {sf_number}.xlsx', 'rb')
+        part = MIMEBase('application', f'Final_stat_form {sf_number}.xlsx')
         part.set_payload(file.read())
         file.close()
         encoders.encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment', filename='Final_stat_form.xlsx')
+        part.add_header('Content-Disposition', 'attachment', filename=f'Final_stat_form {sf_number}.xlsx')
         msg.attach(part)
         server.login(sender, password)
         server.sendmail(sender,send_to, msg.as_string())
